@@ -1,0 +1,37 @@
+.inline{
+    position:relative;
+    /* left: 400px; */
+    width: 50%;
+}
+.resultadoNumero{
+    background-color: lightblue;
+    width: 100px;
+    margin: 20px auto;
+    border-radius: 20px;
+}
+.alertaSinCartas{
+    width: 50%;
+    margin: 10px auto;
+    padding: 20px 0px;
+}
+.alertCartas{
+    width: 50%;
+    margin: 10px auto;
+    padding: 20px 0px;
+}
+.botonJuego{
+    width: 250px;
+    padding: 20px;
+    margin-top: 10px;
+}
+.card{
+    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  right: auto;
+  margin: 40px auto;
+  background-color: white;
+  height: 250px;
+  width: 200px;
+}

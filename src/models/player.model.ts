@@ -1,8 +1,11 @@
 export class Player {
+    powerAttack: any = 1;
+    typeAttack: any = 0;
     team: any = '';
     soldiers = 5;
-    deadSoldiers = 0;
+    deadSoldiers:any = 0;
     stealSoldiers: any = [];
     shield: any = undefined;
-    cards:any = [];
+    cards: any = [];
+    turn: boolean = false;
 }

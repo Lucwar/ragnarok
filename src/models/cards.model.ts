@@ -60,21 +60,21 @@ export class Cards{
         type: 'revivir',
         name: 'Revivir todo el team',
         info: 'Con esta carta revivis a todo el equipo',
-        valor: 5
+        valor: 4
     };
-    10 = {
-        id: 11001,
-        type: 'ataque',
-        name: 'Tira y mata',
-        info: 'Mata segun el dado',
-        valor: 0
-    };
+    // 10 = {
+    //     id: 11001,
+    //     type: 'ataque',
+    //     name: 'Tira y mata',
+    //     info: 'Mata segun el dado',
+    //     valor: 0
+    // };
     11 = {
         id: 11010,
         type: 'ataque',
         name: 'Ataque duplicado',
         info: 'Con esta carta duplicas el ataque',
-        valor: 0
+        valor: 2
     };
     12 = {
         id: 11100,
@@ -83,4 +83,11 @@ export class Cards{
         info: 'RAGNAROOOOOOOOOOOOOOOK (Mueren todos excepto 1 de cada equipo)',
         valor: 4
     };
+    13 = {
+        id: 11101,
+        type: 'trampa',
+        name: "Trampa mortal",
+        info: 'Si caes en esta trampa, se te muere 1',
+        valor: 1
+    }
 };

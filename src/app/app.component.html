@@ -1,37 +1,236 @@
-<button (click)="givenNumber(2,12)">Tirar dado</button>
-<h1>JUGADOR 1</h1>
-<button (click)="createPlayer('rojo')">Crear equipo rojo</button>
-<button (click)="giveCard(0)">Alzar del maso</button>
-<button (click)="attack(0, 1, 1)">Atacar al Azul</button>
-<button (click)="attack(0, 2, 1)">Atacar al Verde</button>
-<button (click)="defense(0, cards, 3)">Escudo de 1</button>
-<button (click)="defense(0, cards, 2)">Escudo de 2</button>
-<button (click)="defense(0, cards, 1)">Escudo de 3</button>
-<button (click)="revive(0, 2)">Revivir 2</button>
-<button (click)="stole(0,1,1)">Robar 1 al Azul</button>
-<button (click)="stole(0,2,1)">Robar 1 al Verde</button>
-<button (click)="useDefenseCard(0,10011)">Usar trampa leve</button>
-<button (click)="useDefenseCard(0,10101)">Usar trampa espejito</button>
-<br>
-<h1>Jugador 2</h1>
-<button (click)="createPlayer('azul')">Crear equipo azul</button>
-<button (click)="giveCard(1)">Alzar del maso</button>
-<button (click)="attack(1, 0, 1)">Atacar al Rojo</button>
-<button (click)="attack(1, 2, 1)">Atacar al Verde</button>
-<button (click)="defense(1, cards, 3)">Escudo de 1</button>
-<button (click)="defense(1, cards, 2)">Escudo de 2</button>
-<button (click)="defense(1, cards, 1)">Escudo de 3</button>
-<button (click)="revive(1, 2)">Revivir 2</button>
-<button (click)="stole(1,0,1)">Robar 1 al Rojo</button>
-<button (click)="stole(1,2,1)">Robar 1 al Verde</button>
-<h1>Jugador 3</h1>
-<button (click)="createPlayer('verde')">Crear equipo verde</button>
-<button (click)="giveCard(2)">Alzar del maso</button>
-<button (click)="attack(2, 0, 1)">Atacar al Rojo</button>
-<button (click)="attack(2, 1, 1)">Atacar al Azul</button>
-<button (click)="defense(2, cards, 3)">Escudo de 1</button>
-<button (click)="defense(2, cards, 2)">Escudo de 2</button>
-<button (click)="defense(2, cards, 1)">Escudo de 3</button>
-<button (click)="revive(2, 2)">Revivir 2</button>
-<button (click)="stole(2,0,1)">Robar 1 al Rojo</button>
-<button (click)="stole(2,1,1)">Robar 1 al Azul</button>
+<!-- BOTONES PARA CREAR EQUIPOS -->
+<div class="m-4 text-center">
+    <button class="btn btn-danger mx-2" (click)="_start.createPlayer('rojo')">Crear equipo rojo</button>
+    <button class="btn btn-primary mx-2" (click)="_start.createPlayer('azul')">Crear equipo azul</button>
+    <button class="btn btn-success mx-2" (click)="_start.createPlayer('verde')">Crear equipo verde</button>
+</div>
+<!-- TERMINA BOTONES PARA CREAR EQUIPOS -->
+<!-- COMPROBACIÓN SI HAY JUGADORES / BOTON EMPEZAR -->
+<div class="text-center" *ngIf='_start.listaDeJugadores.length > 1'>
+    <!-- BOTONES DE EMPEZAR Y TIRAR DADO -->
+    <button *ngIf="!_shifts.hasStart" class="btn btn-secondary mx-3" (click)="_shifts.start()">EMPEZAR</button>
+    <button *ngIf='!_given.hasRoll && _shifts.hasStart' class="btn btn-primary mx-3" (click)="_given.givenNumber(1,6)">Tirar dado</button>
+     <!-- TERMINA BOTONES DE EMPEZAR Y TIRAR DADO -->
+     <!-- SI EL JUGADOR TIRÓ SE MUESTAN LOS DADOS Y EL NUMERO -->
+    <div class="container-fluid mt-4 boxDados text-center" *ngIf='_given.hasRoll'>
+        <span class="mx-3 text-center" *ngFor="let numero of _given.dados; let k = index"> 
+            <span class="inline" *ngIf="_given.dados[k] == 1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dice-1-fill" viewBox="0 0 16 16">
+                    <path d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm5 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+            </span>
+            <span class="inline" *ngIf="_given.dados[k] == 2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dice-2-fill" viewBox="0 0 16 16">
+                    <path d="M0 3a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V3zm5.5 1a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0zm6.5 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                </svg>
+            </span>
+            <span class="inline" *ngIf="_given.dados[k] == 3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dice-3-fill" viewBox="0 0 16 16">
+                    <path d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm2.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM8 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+            </span>
+            <span class="inline" *ngIf="_given.dados[k] == 4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dice-4-fill" viewBox="0 0 16 16">
+                    <path d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm1 5.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm8 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm1.5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM4 13.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+            </span>
+            <span class="inline" *ngIf="_given.dados[k] == 5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dice-5-fill" viewBox="0 0 16 16">
+                    <path d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm2.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM12 13.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM8 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+            </span>
+            <span class="inline" *ngIf="_given.dados[k] == 6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dice-6-fill" viewBox="0 0 16 16">
+                    <path d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm1 5.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm8 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm1.5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM12 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM4 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+            </span>
+        </span>
+        <div class="resultadoNumero">
+            <strong>
+                {{_given.resultado}}
+            </strong>
+        </div>
+    </div>
+    <!-- TERMINAS SI EL JUGADOR TIRÓ SE MUESTAN LOS DADOS Y EL NUMERO -->
+    <!-- OPCIONES DEL JUGADOR Y CARTAS -->
+    <div *ngFor="let player of _start.listaDeJugadores; let j = index">
+        <!-- DATOS DEL TURNO [J] SE ALMACENA EL DUEÑO DEL TURNO -->
+        <div *ngIf='_start.listaDeJugadores[j].turn'>
+            <!-- ANUNCIA EL TURNO -->
+            <div class="mb-2 alert alert-light alertaSinCartas">
+                <h1>Turno del {{_start.listaDeJugadores[j].team}}</h1>
+            </div>
+            <!-- TERMINA ANUNCIA EL TURNO -->
+            <!-- SE MUESTRAN LAS OPCIONES DEL DADO -->
+            <div *ngIf='_given.hasRoll'>
+                <!-- Se genera boton para alzar del maso // 8 o 10 -->
+                <div *ngIf='_given.resultado == "8" || _given.resultado == "10"'>
+                    <button class="btn btn-secondary botonJuego" (click)='_shifts.nextTurn(j)'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                        </svg>
+                        Pasar
+                    </button>
+                    <button *ngIf='!_given.pickCart' class="btn btn-secondary botonJuego mx-2" (click)="_shifts.giveCard(j)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-binary-fill" viewBox="0 0 16 16">
+                            <path d="M5.526 9.273c-.542 0-.832.563-.832 1.612 0 .088.003.173.006.252l1.56-1.143c-.126-.474-.375-.72-.733-.72zm-.732 2.508c.126.472.372.718.732.718.54 0 .83-.563.83-1.614 0-.085-.003-.17-.006-.25l-1.556 1.146z"/>
+                            <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM7.05 10.885c0 1.415-.548 2.206-1.524 2.206C4.548 13.09 4 12.3 4 10.885c0-1.412.548-2.203 1.526-2.203.976 0 1.524.79 1.524 2.203zm3.805 1.52V13h-3v-.595h1.181V9.5h-.05l-1.136.747v-.688l1.19-.786h.69v3.633h1.125z"/>
+                        </svg>
+                        Alzar del maso
+                    </button>
+                </div>
+                <!-- Se genera boton para pasar // 4 o 9 -->
+                <div *ngIf='_given.resultado == "4" || _given.resultado == "9"'>
+                    <button  class="btn btn-secondary botonJuego" (click)='_shifts.nextTurn(j)'>
+                        {{_mov.revive(j,2)}}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                        </svg>
+                        Pasar
+                    </button>
+                </div>
+                <!-- Se te mueren dos (boton para pasar) -->
+                <div *ngIf='_given.resultado == "2"'>
+                    <button  class="btn btn-secondary botonJuego" (click)='_shifts.nextTurn(j)'>
+                        {{_mov.autoDeath(j, 2)}} 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                        </svg>
+                        Pasar
+                    </button>
+                </div>
+                <!-- SI TOCÓ ATAQUE -->
+                <div *ngFor='let player of _start.listaDeJugadores; let i = index'>
+                    <!-- Se genera boton para matar 2 // 5-->
+                    <span *ngIf='_given.resultado == "5"'>
+                        <span *ngIf="_start.listaDeJugadores[i].team != _start.listaDeJugadores[j].team ">
+                            <div class="">
+                                <strong>{{_start.listaDeJugadores[i].team}}</strong>
+                                <p>Soldados: {{_start.listaDeJugadores[i].soldiers}}</p>
+                                <div *ngIf='_start.listaDeJugadores[i].shield != undefined'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-shield-fill-minus" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zM6 7.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1H6z"/>
+                                    </svg>
+                                </div>
+                                <button class="btn btn-secondary botonJuego" (click)="_mov.attack(j, i, _start.listaDeJugadores[j].powerAttack * 2)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-fill" viewBox="0 0 16 16">
+                                        <path d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641l2.5-8.5z"/>
+                                    </svg>
+                                    Matar 2
+                                </button>
+                            </div>
+                        </span>
+                    </span>
+                    <!-- Se genera boton para robar 1 // 6 -->
+                    <div >
+                        <div *ngIf="_start.listaDeJugadores[i].team != _start.listaDeJugadores[j].team ">
+                            <button class="btn btn-secondary botonJuego" (click)="_mov.stole(j, i, _start.listaDeJugadores[j].powerAttack, false)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tornado" viewBox="0 0 16 16">
+                                    <path d="M1.125 2.45A.892.892 0 0 1 1 2c0-.26.116-.474.258-.634a1.9 1.9 0 0 1 .513-.389c.387-.21.913-.385 1.52-.525C4.514.17 6.18 0 8 0c1.821 0 3.486.17 4.709.452.607.14 1.133.314 1.52.525.193.106.374.233.513.389.141.16.258.374.258.634 0 1.011-.35 1.612-.634 2.102-.04.07-.08.137-.116.203a2.55 2.55 0 0 0-.313.809 2.938 2.938 0 0 0-.011.891.5.5 0 0 1 .428.849c-.06.06-.133.126-.215.195.204 1.116.088 1.99-.3 2.711-.453.84-1.231 1.383-2.02 1.856-.204.123-.412.243-.62.364-1.444.832-2.928 1.689-3.735 3.706a.5.5 0 0 1-.748.226l-.001-.001-.002-.001-.004-.003-.01-.008a2.142 2.142 0 0 1-.147-.115 4.095 4.095 0 0 1-1.179-1.656 3.786 3.786 0 0 1-.247-1.296A.498.498 0 0 1 5 12.5v-.018a.62.62 0 0 1 .008-.079.728.728 0 0 1 .188-.386c.09-.489.272-1.014.573-1.574a.5.5 0 0 1 .073-.918 3.29 3.29 0 0 1 .617-.144l.15-.193c.285-.356.404-.639.437-.861a.948.948 0 0 0-.122-.619c-.249-.455-.815-.903-1.613-1.43-.193-.127-.398-.258-.609-.394l-.119-.076a12.307 12.307 0 0 1-1.241-.334.5.5 0 0 1-.285-.707l-.23-.18C2.117 4.01 1.463 3.32 1.125 2.45zm1.973 1.051c.113.104.233.207.358.308.472.381.99.722 1.515 1.06 1.54.317 3.632.5 5.43.14a.5.5 0 0 1 .197.981c-1.216.244-2.537.26-3.759.157.399.326.744.682.963 1.081.203.373.302.79.233 1.247-.05.33-.182.657-.39.985.075.017.148.035.22.053l.006.002c.481.12.863.213 1.47.01a.5.5 0 1 1 .317.95c-.888.295-1.505.141-2.023.012l-.006-.002a3.894 3.894 0 0 0-.644-.123c-.37.55-.598 1.05-.726 1.497.142.045.296.11.465.194a.5.5 0 1 1-.448.894 3.11 3.11 0 0 0-.148-.07c.012.345.084.643.18.895.14.369.342.666.528.886.992-1.903 2.583-2.814 3.885-3.56.203-.116.399-.228.584-.34.775-.464 1.34-.89 1.653-1.472.212-.393.33-.9.26-1.617A6.74 6.74 0 0 1 10 8.5a.5.5 0 0 1 0-1 5.76 5.76 0 0 0 3.017-.872.515.515 0 0 1-.007-.03c-.135-.673-.14-1.207-.056-1.665.084-.46.253-.81.421-1.113l.131-.23c.065-.112.126-.22.182-.327-.29.107-.62.202-.98.285C11.487 3.83 9.822 4 8 4c-1.821 0-3.486-.17-4.709-.452-.065-.015-.13-.03-.193-.047zM13.964 2a1.12 1.12 0 0 0-.214-.145c-.272-.148-.697-.297-1.266-.428C11.354 1.166 9.769 1 8 1c-1.769 0-3.354.166-4.484.427-.569.13-.994.28-1.266.428A1.12 1.12 0 0 0 2.036 2c.04.038.109.087.214.145.272.148.697.297 1.266.428C4.646 2.834 6.231 3 8 3c1.769 0 3.354-.166 4.484-.427.569-.13.994-.28 1.266-.428A1.12 1.12 0 0 0 13.964 2z"/>
+                                </svg>
+                                Robar 1 al {{_start.listaDeJugadores[i].team}}
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Se genera boton para matar 1 // 7 -->
+                    <div *ngIf='_given.resultado == "7"'>
+                        <div *ngIf="_start.listaDeJugadores[i].team != _start.listaDeJugadores[j].team ">
+                            <button class="btn btn-secondary botonJuego" (click)="_mov.attack(j, i, _start.listaDeJugadores[j].powerAttack)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                                Matar 1 al {{_start.listaDeJugadores[i].team}}
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Se genera boton para robar 2 // 11 -->
+                    <div *ngIf='_given.resultado == "11"'>
+                        <div *ngIf="_start.listaDeJugadores[i].team != _start.listaDeJugadores[j].team ">
+                            <button class="btn btn-secondary botonJuego" (click)="_mov.stole(j, i, _start.listaDeJugadores[j].powerAttack * 2, false)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tornado" viewBox="0 0 16 16">
+                                    <path d="M1.125 2.45A.892.892 0 0 1 1 2c0-.26.116-.474.258-.634a1.9 1.9 0 0 1 .513-.389c.387-.21.913-.385 1.52-.525C4.514.17 6.18 0 8 0c1.821 0 3.486.17 4.709.452.607.14 1.133.314 1.52.525.193.106.374.233.513.389.141.16.258.374.258.634 0 1.011-.35 1.612-.634 2.102-.04.07-.08.137-.116.203a2.55 2.55 0 0 0-.313.809 2.938 2.938 0 0 0-.011.891.5.5 0 0 1 .428.849c-.06.06-.133.126-.215.195.204 1.116.088 1.99-.3 2.711-.453.84-1.231 1.383-2.02 1.856-.204.123-.412.243-.62.364-1.444.832-2.928 1.689-3.735 3.706a.5.5 0 0 1-.748.226l-.001-.001-.002-.001-.004-.003-.01-.008a2.142 2.142 0 0 1-.147-.115 4.095 4.095 0 0 1-1.179-1.656 3.786 3.786 0 0 1-.247-1.296A.498.498 0 0 1 5 12.5v-.018a.62.62 0 0 1 .008-.079.728.728 0 0 1 .188-.386c.09-.489.272-1.014.573-1.574a.5.5 0 0 1 .073-.918 3.29 3.29 0 0 1 .617-.144l.15-.193c.285-.356.404-.639.437-.861a.948.948 0 0 0-.122-.619c-.249-.455-.815-.903-1.613-1.43-.193-.127-.398-.258-.609-.394l-.119-.076a12.307 12.307 0 0 1-1.241-.334.5.5 0 0 1-.285-.707l-.23-.18C2.117 4.01 1.463 3.32 1.125 2.45zm1.973 1.051c.113.104.233.207.358.308.472.381.99.722 1.515 1.06 1.54.317 3.632.5 5.43.14a.5.5 0 0 1 .197.981c-1.216.244-2.537.26-3.759.157.399.326.744.682.963 1.081.203.373.302.79.233 1.247-.05.33-.182.657-.39.985.075.017.148.035.22.053l.006.002c.481.12.863.213 1.47.01a.5.5 0 1 1 .317.95c-.888.295-1.505.141-2.023.012l-.006-.002a3.894 3.894 0 0 0-.644-.123c-.37.55-.598 1.05-.726 1.497.142.045.296.11.465.194a.5.5 0 1 1-.448.894 3.11 3.11 0 0 0-.148-.07c.012.345.084.643.18.895.14.369.342.666.528.886.992-1.903 2.583-2.814 3.885-3.56.203-.116.399-.228.584-.34.775-.464 1.34-.89 1.653-1.472.212-.393.33-.9.26-1.617A6.74 6.74 0 0 1 10 8.5a.5.5 0 0 1 0-1 5.76 5.76 0 0 0 3.017-.872.515.515 0 0 1-.007-.03c-.135-.673-.14-1.207-.056-1.665.084-.46.253-.81.421-1.113l.131-.23c.065-.112.126-.22.182-.327-.29.107-.62.202-.98.285C11.487 3.83 9.822 4 8 4c-1.821 0-3.486-.17-4.709-.452-.065-.015-.13-.03-.193-.047zM13.964 2a1.12 1.12 0 0 0-.214-.145c-.272-.148-.697-.297-1.266-.428C11.354 1.166 9.769 1 8 1c-1.769 0-3.354.166-4.484.427-.569.13-.994.28-1.266.428A1.12 1.12 0 0 0 2.036 2c.04.038.109.087.214.145.272.148.697.297 1.266.428C4.646 2.834 6.231 3 8 3c1.769 0 3.354-.166 4.484-.427.569-.13.994-.28 1.266-.428A1.12 1.12 0 0 0 13.964 2z"/>
+                                </svg>
+                                Robar 2 al {{_start.listaDeJugadores[i].team}}
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Se genera boton para matar 4 // 12-->
+                    <div *ngIf='_given.resultado == "12"'>
+                        <div *ngIf="_start.listaDeJugadores[i].team != _start.listaDeJugadores[j].team ">
+                            <button class="btn btn-secondary botonJuego" (click)="_mov.attack(j, i, _start.listaDeJugadores[j].powerAttack * 4)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                                Matar 4 al {{_start.listaDeJugadores[i].team}}
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Se genera boton para robar 2 cartas // 3-->
+                    <div *ngIf='_given.resultado == "3" && _start.listaDeJugadores[i].team != _start.listaDeJugadores[j].team'>
+                        <button class="btn btn-secondary botonJuego" (click)="_mov.stoleCard(j, i, 2)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                            </svg>
+                            Robar 2 cartas al {{_start.listaDeJugadores[i].team}}
+                        </button>
+                    </div>
+                </div>
+                <!-- TERMINA SI TOCÓ ATAQUE -->
+            </div>
+            <!-- TERMINA LAS OPCIONES DEL DADO -->
+            <!-- CARTAS ////////////////////////////////////////////////////////// -->
+            <div class="mt-4 alert alert-dark alertCartas" *ngIf='_start.listaDeJugadores[j].cards.length != 0 && _shifts.onlyUseOneCard == false'>
+                <!-- FOR QUE RECORRE LAS CARTAS DE LOS JUGADORES [I] VA ITERANDO LAS CARTAS -->
+                <div *ngFor='let player of _start.listaDeJugadores[j].cards; let i = index'>
+                    <!-- Se genera boton para usar una carta (Si el jugador tiene cartas) -->
+                    <!-- Se muestra si hay una carta es de defensa en el maso del jugador -->
+                    <div *ngIf="_start.listaDeJugadores[j].cards[i].type == 'escudo' ||
+                                _start.listaDeJugadores[j].cards[i].type == 'trampa'">
+                        <button class="btn btn-success botonJuego" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-fill" viewBox="0 0 16 16">
+                                <path d="M5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453 7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625 11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 62.456 62.456 0 0 1 5.072.56z"/>
+                            </svg>
+                            Usar {{_start.listaDeJugadores[j].cards[i].name}}
+                        </button>
+                    </div>
+                    <!-- Se muestra si hay una carta de ataque en el maso del jugador -->
+                    <div *ngIf='_start.listaDeJugadores[j].cards[i].type === "ataque"'>
+                        <button class="btn btn-success botonJuego" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                            Usar {{_start.listaDeJugadores[j].cards[i].name}}
+                        </button>
+                    </div>
+                    <!-- Se muestra si hay una carta para revivir en el maso del jugador -->
+                    <div *ngIf='_start.listaDeJugadores[j].cards[i].type === "revivir"'>
+                        <button class="btn btn-success botonJuego" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                            </svg>
+                            Usar {{_start.listaDeJugadores[j].cards[i].name}}
+                        </button>
+                    </div>
+                </div>
+                <!-- TERMINA FOR QUE RECORRE LAS CARTAS DE LOS JUGADORES [I] VA ITERANDO LAS CARTAS -->
+            </div>
+            <!-- TERMINA CARTAS ////////////////////////////////////////////////////////// -->
+            <!-- DIV SI EL JUGADOR NO TIENE CARTAS -->
+            <div class="mt-4 alert alert-dark alertCartas" *ngIf='_start.listaDeJugadores[j].cards.length == 0'>
+                <p>No tienes cartas aún</p>
+            </div>
+            <!-- DIV SI EL JUGADOR NO TIENE CARTAS -->
+            <div class="mt-4 alert alert-dark alertCartas" *ngIf='_shifts.onlyUseOneCard == true'>
+                <strong><p class="mt-2">Carta usada con éxito.</p></strong>
+            </div>
+            <!-- TERMINA DIV SI EL JUGADOR NO TIENE CARTAS -->
+        </div>
+        <!-- TERMINA DATOS DEL TURNO [J] SE ALMACENA EL DUEÑO DEL TURNO -->
+    </div>
+    <!-- TERMINA OPCIONES DEL JUGADOR Y CARTAS FOR DEL J -->
+</div>
+<!-- TERMINA COMPROBACIÓN SI HAY JUGADORES / BOTON EMPEZAR -->
+
+<button class="btn btn-danger" (click)="_sound.playMusic()">Play Music</button>
+<button class="btn btn-danger" (click)="_sound.stopMusic()">Stop Music</button>
