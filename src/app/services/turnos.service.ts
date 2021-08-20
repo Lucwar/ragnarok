@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Player } from 'src/models/player.model';
 import { Given } from 'src/models/given.model';
 import { Cards } from 'src/models/cards.model';
@@ -10,18 +10,18 @@ import { StartService } from './start.service';
 @Injectable({
   providedIn: 'root'
 })
-export class TurnosService {
+export class TurnosService{
 
   constructor( public _start: StartService,
                 public _given: GivenService
               ) {
 
               }
-  
- //Inicializaciones
+  //Inicializaciones
   cards: any = new Cards();
   hasStart = false;
   onlyUseOneCard = false;
+
   start(){
     if(this._start.listaDeJugadores == ''){
       console.error('No hay equipos creados todavía')

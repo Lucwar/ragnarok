@@ -224,7 +224,7 @@ export class MovementsService {
                 if(this._start.list[user].cards[positionCard].id == 11001){
                   this._start.list[user].powerAttack = this._given.dado1;
                   this._start.list[user].cards.splice(positionCard,1);
-                  this._given.hasRoll = false;
+                  this._given.roll11001 = true;
                 }else
                 if(this._start.list[user].cards[positionCard].id == 11100){
                   this.ragnarok(this._start.list[user]);

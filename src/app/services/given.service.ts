@@ -27,6 +27,7 @@ export class GivenService {
   resultado: any;
   hasRoll = false;
   pickCart = false;
+  roll11001 = false;
   dados:any = [];
 
   //Tira un numero al azar (sirve del 1 al 12 y tambien del 1 al 6)
@@ -40,6 +41,7 @@ export class GivenService {
     this.resultado = this.dados[0] + this.dados[1];
     this.hasRoll = true;
     this.pickCart = false;
+    this.roll11001 = false;
     console.info('El resultado es: ' + this.resultado)
     console.info('Acción: ' + this.given[this.resultado].info)
     this._sound.diceSound();

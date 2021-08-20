@@ -62,13 +62,13 @@ export class Cards{
         info: 'Con esta carta revivis a todo el equipo',
         valor: 4
     };
-    // 10 = {
-    //     id: 11001,
-    //     type: 'ataque',
-    //     name: 'Tira y mata',
-    //     info: 'Mata segun el dado',
-    //     valor: 0
-    // };
+    10 = {
+        id: 11001,
+        type: 'ataque',
+        name: 'Tira y mata',
+        info: 'Mata segun el dado',
+        valor: 0
+    };
     11 = {
         id: 11010,
         type: 'ataque',
