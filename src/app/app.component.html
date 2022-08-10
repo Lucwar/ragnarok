@@ -1,12 +1,45 @@
 <!-- BOTONES PARA CREAR EQUIPOS -->
-<div class="m-4 text-center">
-    <button class="btn btn-danger mx-2" (click)="_start.createPlayer('rojo')">Crear equipo rojo</button>
-    <button class="btn btn-primary mx-2" (click)="_start.createPlayer('azul')">Crear equipo azul</button>
-    <button class="btn btn-success mx-2" (click)="_start.createPlayer('verde')">Crear equipo verde</button>
+<div *ngIf="!_shifts.hasStart" class="m-4 text-center">
+    <button class="btn btn-danger mx-2" (click)="_start.createPlayer('Indio')">Crear equipo rojo</button>
+    <button class="btn btn-primary mx-2" (click)="_start.createPlayer('Griego')">Crear equipo azul</button>
+    <button class="btn btn-success mx-2" (click)="_start.createPlayer('Espartano')">Crear equipo verde</button>
 </div>
+<!-- <div tabindex="0" (keydown.tab)="onTabPress()"> -->
+    <div tabindex="0" type="text" (keydown)="onTabPress($event)">
+        <div *ngIf="isOptionListVisible">
+            <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+            <ng-template class="content" id="content" #content let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Hello, World!</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
+                </div>
+              </ng-template>
+        </div>
 <!-- TERMINA BOTONES PARA CREAR EQUIPOS -->
+<div *ngIf="_shifts.hasStart" class="tableroInfo mt-3 row">
+    <p>Jugadores | Soldados | Muertos | Prisioneros</p>
+    <div *ngFor="let player of _start.listaDeJugadores; let i = index">
+        <!-- Equipo: {{_start.listaDeJugadores[i].team}} <br>
+        Soldados: {{_start.listaDeJugadores[i].soldiers}} <br>
+        Muertos: {{_start.listaDeJugadores[i].deadSoldiers}} <br>
+        Prisioneros: {{_start.listaDeJugadores[i].stealSoldiers}} -->
+        <div *ngIf="_start.listaDeJugadores[i].shield != undefined">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-shield-fill-minus" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zM6 7.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1H6z"/>
+            </svg>
+        </div>
+    </div>
+</div>
 <!-- COMPROBACIÓN SI HAY JUGADORES / BOTON EMPEZAR -->
-<div class="text-center" *ngIf='_start.listaDeJugadores.length > 1'>
+<div class="text-center mt-4" *ngIf='_start.listaDeJugadores.length > 1'>
     <!-- BOTONES DE EMPEZAR Y TIRAR DADO -->
     <button *ngIf="!_shifts.hasStart" class="btn btn-secondary mx-3" (click)="_shifts.start()">EMPEZAR</button>
     <button *ngIf='!_given.hasRoll && _shifts.hasStart' class="btn btn-primary mx-3" (click)="_given.givenNumber(1,6)">Tirar dado</button>
@@ -229,49 +262,52 @@
             </div>
             <!-- TERMINA LAS OPCIONES DEL DADO -->
             <!-- CARTAS ////////////////////////////////////////////////////////// -->
-            <div class="mt-4 alert alert-dark alertCartas" *ngIf='_start.listaDeJugadores[j].cards.length != 0 && _shifts.onlyUseOneCard == false'>
+            <div class="container-fluid mt-4 alertCartas contenedorCarta row text-center" *ngIf='_start.listaDeJugadores[j].cards.length != 0 && _shifts.onlyUseOneCard == false'>
                 <!-- FOR QUE RECORRE LAS CARTAS DE LOS JUGADORES [I] VA ITERANDO LAS CARTAS -->
-                <div *ngFor='let player of _start.listaDeJugadores[j].cards; let i = index'>
+                <div class="mx-2 col col-md-3 col-lg-3 col-sm-12 col-12" *ngFor='let player of _start.listaDeJugadores[j].cards; let i = index'>
                     <!-- Se genera boton para usar una carta (Si el jugador tiene cartas) -->
                     <!-- Se muestra si hay una carta es de defensa en el maso del jugador -->
-                    <div *ngIf="_start.listaDeJugadores[j].cards[i].type == 'escudo' ||
+                    <div  *ngIf="_start.listaDeJugadores[j].cards[i].type == 'escudo' ||
                                 _start.listaDeJugadores[j].cards[i].type == 'trampa'">
-                        <button class="btn btn-success botonJuego" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
+                        <img src="{{_start.listaDeJugadores[j].cards[i].url}}" class="carta" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
+                        <!-- <button class="btn btn-success botonJuego" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-fill" viewBox="0 0 16 16">
                                 <path d="M5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453 7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625 11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 62.456 62.456 0 0 1 5.072.56z"/>
                             </svg>
                             Usar {{_start.listaDeJugadores[j].cards[i].name}}
-                        </button>
+                        </button> -->
                     </div>
                     <!-- Se muestra si hay una carta de ataque en el maso del jugador -->
-                    <div *ngIf='_start.listaDeJugadores[j].cards[i].type === "ataque"'>
-                        <button class="btn btn-success botonJuego" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
+                    <div   *ngIf='_start.listaDeJugadores[j].cards[i].type === "ataque"'>
+                        <img src="{{_start.listaDeJugadores[j].cards[i].url}}" class="carta" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
+                        <!-- <button class="btn btn-success botonJuego" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
                             </svg>
                             Usar {{_start.listaDeJugadores[j].cards[i].name}}
-                        </button>
+                        </button> -->
                     </div>
                     <!-- Se muestra si hay una carta para revivir en el maso del jugador -->
-                    <div *ngIf='_start.listaDeJugadores[j].cards[i].type === "revivir"'>
-                        <button class="btn btn-success botonJuego" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
+                    <div  *ngIf='_start.listaDeJugadores[j].cards[i].type === "revivir"'>
+                        <img src="{{_start.listaDeJugadores[j].cards[i].url}}" class="carta" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
+                        <!-- <button class="btn btn-success botonJuego" (click)="_mov.useCard(j, _start.listaDeJugadores[j].cards[i].id)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
                                 <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
                                 <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
                             </svg>
                             Usar {{_start.listaDeJugadores[j].cards[i].name}}
-                        </button>
+                        </button> -->
                     </div>
                 </div>
                 <!-- TERMINA FOR QUE RECORRE LAS CARTAS DE LOS JUGADORES [I] VA ITERANDO LAS CARTAS -->
             </div>
             <!-- TERMINA CARTAS ////////////////////////////////////////////////////////// -->
             <!-- DIV SI EL JUGADOR NO TIENE CARTAS -->
-            <div class="mt-4 alert alert-dark alertCartas" *ngIf='_start.listaDeJugadores[j].cards.length == 0'>
+            <div class="mt-4 alert alert-dark alertCartas cartas50" *ngIf='_start.listaDeJugadores[j].cards.length == 0'>
                 <p>No tienes cartas aún</p>
             </div>
             <!-- DIV SI EL JUGADOR NO TIENE CARTAS -->
-            <div class="mt-4 alert alert-dark alertCartas" *ngIf='_shifts.onlyUseOneCard == true'>
+            <div class="mt-4 alert alert-dark alertCartas cartas50" *ngIf='_shifts.onlyUseOneCard == true'>
                 <strong><p class="mt-2">Carta usada con éxito.</p></strong>
             </div>
             <!-- TERMINA DIV SI EL JUGADOR NO TIENE CARTAS -->
@@ -281,6 +317,7 @@
     <!-- TERMINA OPCIONES DEL JUGADOR Y CARTAS FOR DEL J -->
 </div>
 <!-- TERMINA COMPROBACIÓN SI HAY JUGADORES / BOTON EMPEZAR -->
-
-<button class="btn btn-danger" (click)="_sound.playMusic()">Play Music</button>
+</div>
+<button class="btn btn-danger" (click)="_sound.playMusic()">
+    Play Music</button>
 <button class="btn btn-danger" (click)="_sound.stopMusic()">Stop Music</button>
